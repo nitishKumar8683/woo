@@ -3,17 +3,28 @@ import React from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const validationSchema = Yup.object({
   childName: Yup.string().required("Child Name is required"),
   guardianName: Yup.string().required("Guardian Name is required"),
-  dob: Yup.date().required("Date of Birth is required"),
+  dob: Yup.date()
+    .nullable() // Allow null values
+    .required("Date of Birth is required")
+    .typeError("Invalid date format"), // Handle invalid date format
   phoneNumber: Yup.string()
     .required("Phone Number is required")
     .matches(/^[0-9]{10}$/, "Phone Number must be 10 digits"),
   address: Yup.string().required("Address is required"),
-  timeIn: Yup.string().required("Time In is required"),
-  timeOut: Yup.string().required("Time Out is required"),
+  timeIn: Yup.date()
+    .nullable() // Allow null values
+    .required("Time In is required")
+    .typeError("Invalid time format"), // Handle invalid time format
+  timeOut: Yup.date()
+    .nullable() // Allow null values
+    .required("Time Out is required")
+    .typeError("Invalid time format"), // Handle invalid time format
   agreeToTerms: Yup.boolean().oneOf(
     [true],
     "You must agree to the terms and conditions"
@@ -40,17 +51,17 @@ const Page = () => {
           initialValues={{
             childName: "",
             guardianName: "",
-            dob: "",
+            dob: null, // Initialize with null
             phoneNumber: "",
             address: "",
-            timeIn: "",
-            timeOut: "",
+            timeIn: null, // Initialize with null
+            timeOut: null, // Initialize with null
             agreeToTerms: false,
           }}
           validationSchema={validationSchema}
           onSubmit={handleSubmit}
         >
-          {() => (
+          {({ setFieldValue, values }) => (
             <Form className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -64,6 +75,7 @@ const Page = () => {
                     type="text"
                     id="childName"
                     name="childName"
+                    placeholder="Enter Child Name"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                   />
                   <ErrorMessage
@@ -83,6 +95,7 @@ const Page = () => {
                     type="text"
                     id="guardianName"
                     name="guardianName"
+                    placeholder="Enter Guardian Name"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                   />
                   <ErrorMessage
@@ -98,11 +111,12 @@ const Page = () => {
                   >
                     Date of Birth
                   </label>
-                  <Field
-                    type="date"
-                    id="dob"
-                    name="dob"
+                  <DatePicker
+                    selected={values.dob}
+                    onChange={(date) => setFieldValue("dob", date)}
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                    dateFormat="yyyy/MM/dd"
+                    placeholderText="Select date"
                   />
                   <ErrorMessage
                     name="dob"
@@ -121,6 +135,7 @@ const Page = () => {
                     type="tel"
                     id="phoneNumber"
                     name="phoneNumber"
+                    placeholder="Enter Phone Number"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                   />
                   <ErrorMessage
@@ -136,11 +151,16 @@ const Page = () => {
                   >
                     Time In
                   </label>
-                  <Field
-                    type="time"
-                    id="timeIn"
-                    name="timeIn"
+                  <DatePicker
+                    selected={values.timeIn}
+                    onChange={(date) => setFieldValue("timeIn", date)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                    placeholderText="Select time"
                   />
                   <ErrorMessage
                     name="timeIn"
@@ -155,11 +175,16 @@ const Page = () => {
                   >
                     Time Out
                   </label>
-                  <Field
-                    type="time"
-                    id="timeOut"
-                    name="timeOut"
+                  <DatePicker
+                    selected={values.timeOut}
+                    onChange={(date) => setFieldValue("timeOut", date)}
+                    showTimeSelect
+                    showTimeSelectOnly
+                    timeIntervals={15}
+                    timeCaption="Time"
+                    dateFormat="h:mm aa"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                    placeholderText="Select time"
                   />
                   <ErrorMessage
                     name="timeOut"
@@ -167,7 +192,6 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-
                 <div className="md:col-span-2">
                   <label
                     htmlFor="address"
@@ -180,6 +204,7 @@ const Page = () => {
                     id="address"
                     name="address"
                     rows="2"
+                    placeholder="Enter Address"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                   />
                   <ErrorMessage
@@ -188,30 +213,31 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-
-                <div className="md:col-span-2 flex items-start space-x-3">
-                  <div className="flex-shrink-0">
-                    <Field
-                      type="checkbox"
-                      id="agreeToTerms"
-                      name="agreeToTerms"
-                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                    />
-                  </div>
-                  <label
-                    htmlFor="agreeToTerms"
-                    className="text-sm font-medium text-gray-700 flex-1"
-                  >
-                    I confirm that I have read and agree to the{" "}
-                    <Link
-                      href="/term"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-blue-500 underline"
+                <div className="md:col-span-2 flex flex-col space-y-2">
+                  <div className="flex items-start space-x-3">
+                    <div className="flex-shrink-0">
+                      <Field
+                        type="checkbox"
+                        id="agreeToTerms"
+                        name="agreeToTerms"
+                        className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                      />
+                    </div>
+                    <label
+                      htmlFor="agreeToTerms"
+                      className="text-sm font-medium text-gray-700 flex-1"
                     >
-                      T&C
-                    </Link>
-                  </label>
+                      I confirm that I have read and agree to the{" "}
+                      <Link
+                        href="/term"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-blue-500 underline"
+                      >
+                        T&C
+                      </Link>
+                    </label>
+                  </div>
                   <ErrorMessage
                     name="agreeToTerms"
                     component="div"
@@ -234,3 +260,4 @@ const Page = () => {
 };
 
 export default Page;
+
