@@ -189,16 +189,18 @@ const Page = () => {
                   />
                 </div>
 
-                <div className="md:col-span-2 flex items-center space-x-2">
-                  <Field
-                    type="checkbox"
-                    id="agreeToTerms"
-                    name="agreeToTerms"
-                    className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                  />
+                <div className="md:col-span-2 flex items-start space-x-3">
+                  <div className="flex-shrink-0">
+                    <Field
+                      type="checkbox"
+                      id="agreeToTerms"
+                      name="agreeToTerms"
+                      className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                  </div>
                   <label
                     htmlFor="agreeToTerms"
-                    className="text-sm font-medium text-gray-700"
+                    className="text-sm font-medium text-gray-700 flex-1"
                   >
                     I confirm that I have read and agree to the{" "}
                     <Link
