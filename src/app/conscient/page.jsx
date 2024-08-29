@@ -1,10 +1,11 @@
 "use client";
-import React from "react";
+import React, { useRef } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { FaClock, FaCalendarAlt } from "react-icons/fa";
 
 const validationSchema = Yup.object({
   childName: Yup.string().required("Child Name is required"),
@@ -32,6 +33,29 @@ const validationSchema = Yup.object({
 });
 
 const Page = () => {
+  const dobPickerRef = useRef(null);
+  const timeInPickerRef = useRef(null);
+  const timeOutPickerRef = useRef(null);
+
+  const handleDobIconClick = () => {
+    if (dobPickerRef.current) {
+      dobPickerRef.current.setOpen(true);
+    }
+  };
+
+  const handleTimeInIconClick = () => {
+    if (timeInPickerRef.current) {
+      timeInPickerRef.current.setOpen(true);
+    }
+  };
+
+    const handleTimeOutIconClick = () => {
+      if (timeOutPickerRef.current) {
+        timeOutPickerRef.current.setOpen(true);
+      }
+    };
+
+
   const handleSubmit = (values, { resetForm }) => {
     console.log("Form submitted:", values);
     resetForm();
@@ -104,7 +128,7 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="dob"
                     className="block text-sm font-medium text-gray-700"
@@ -112,11 +136,17 @@ const Page = () => {
                     Date of Birth
                   </label>
                   <DatePicker
+                    ref={dobPickerRef}
                     selected={values.dob}
                     onChange={(date) => setFieldValue("dob", date)}
-                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm pr-10" // Ensure padding-right is sufficient for the icon
                     dateFormat="yyyy/MM/dd"
                     placeholderText="Select date"
+                  />
+                  <FaCalendarAlt
+                    onClick={handleDobIconClick}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer mt-2"
+                    size={20}
                   />
                   <ErrorMessage
                     name="dob"
@@ -124,6 +154,7 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
+
                 <div>
                   <label
                     htmlFor="phoneNumber"
@@ -144,7 +175,7 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-                <div>
+                <div className="relative">
                   <label
                     htmlFor="timeIn"
                     className="block text-sm font-medium text-gray-700"
@@ -152,6 +183,7 @@ const Page = () => {
                     Time In
                   </label>
                   <DatePicker
+                    ref={timeInPickerRef}
                     selected={values.timeIn}
                     onChange={(date) => setFieldValue("timeIn", date)}
                     showTimeSelect
@@ -159,8 +191,13 @@ const Page = () => {
                     timeIntervals={15}
                     timeCaption="Time"
                     dateFormat="h:mm aa"
-                    className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
+                    className="block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm pr-10" // Add padding to the right for the icon
                     placeholderText="Select time"
+                  />
+                  <FaClock
+                    onClick={handleTimeInIconClick}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer mt-1"
+                    size={20}
                   />
                   <ErrorMessage
                     name="timeIn"
@@ -168,7 +205,8 @@ const Page = () => {
                     className="text-red-500 text-sm mt-1"
                   />
                 </div>
-                <div>
+
+                <div className="relative">
                   <label
                     htmlFor="timeOut"
                     className="block text-sm font-medium text-gray-700"
@@ -176,6 +214,7 @@ const Page = () => {
                     Time Out
                   </label>
                   <DatePicker
+                    ref={timeOutPickerRef}
                     selected={values.timeOut}
                     onChange={(date) => setFieldValue("timeOut", date)}
                     showTimeSelect
@@ -185,6 +224,11 @@ const Page = () => {
                     dateFormat="h:mm aa"
                     className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 sm:text-sm"
                     placeholderText="Select time"
+                  />
+                  <FaClock
+                    onClick={handleTimeOutIconClick}
+                    className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 cursor-pointer mt-2"
+                    size={20}
                   />
                   <ErrorMessage
                     name="timeOut"
@@ -260,4 +304,3 @@ const Page = () => {
 };
 
 export default Page;
-
