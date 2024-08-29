@@ -189,7 +189,7 @@ const Page = () => {
                   />
                 </div>
 
-                <div className="flex items-center md:col-span-2">
+                <div className="md:col-span-2 flex items-center space-x-2">
                   <Field
                     type="checkbox"
                     id="agreeToTerms"
@@ -198,14 +198,14 @@ const Page = () => {
                   />
                   <label
                     htmlFor="agreeToTerms"
-                    className="ml-2 block text-sm font-medium text-gray-700"
+                    className="text-sm font-medium text-gray-700"
                   >
                     I confirm that I have read and agree to the{" "}
                     <Link
                       href="/term"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="ml-1 font-semibold text-blue-500 underline"
+                      className="font-semibold text-blue-500 underline"
                     >
                       T&C
                     </Link>
@@ -213,7 +213,7 @@ const Page = () => {
                   <ErrorMessage
                     name="agreeToTerms"
                     component="div"
-                    className="text-red-500 text-sm mt-1 ml-2"
+                    className="text-red-500 text-sm mt-1"
                   />
                 </div>
               </div>
