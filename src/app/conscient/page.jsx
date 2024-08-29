@@ -6,6 +6,7 @@ import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FaClock, FaCalendarAlt } from "react-icons/fa";
+import Image from "next/image";
 
 const validationSchema = Yup.object({
   childName: Yup.string().required("Child Name is required"),
@@ -65,8 +66,13 @@ const Page = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6">
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-8 space-y-8">
         <header className="flex items-center justify-center mb-6">
-          <img src="/logo.webp" alt="Logo" className="h-12 w-auto" />
-          <h1 className="text-2xl font-bold text-gray-800 ml-4">
+          <Image
+            src="/logo.webp"
+            alt="Logo"
+            height={120} // Adjust the height as needed
+            width={150} // Use a fixed width if necessary
+          />
+          <h1 className="text-3xl font-bold text-gray-800 ml-4">
             Conscient Form
           </h1>
         </header>
