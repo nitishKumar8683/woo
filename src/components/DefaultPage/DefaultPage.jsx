@@ -71,7 +71,7 @@ const DefaultPage = ({ children }) => {
       <div
         className={`flex-1 flex flex-col transition-transform ${
           isSidebarOpen ? "ml-64" : "ml-0"
-        } lg:ml-0`} // Ensure content margin adjusts when sidebar is open
+        } lg:ml-0`} // Adjust margin-left for sidebar
       >
         {/* Header */}
         <header className="fixed top-0 left-0 w-full z-30 bg-white shadow-md dark:bg-gray-800 dark:shadow-none">
@@ -149,6 +149,7 @@ const DefaultPage = ({ children }) => {
           className={`flex-1 p-6 bg-gray-100 ${
             isSidebarOpen ? "ml-64" : "ml-0"
           } lg:ml-0`}
+          style={{ paddingTop: "8rem" }} 
         >
           {children}
         </main>
