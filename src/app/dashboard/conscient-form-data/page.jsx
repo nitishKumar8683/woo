@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import DefaultPage from "@/components/DefaultPage/DefaultPage";
 import { FaEdit, FaTrashAlt, FaEye } from "react-icons/fa";
-import EnhancedModal from "@/components/EnhancedModal/EnhancedModal"; 
+import EnhancedModal from "@/components/EnhancedModal/EnhancedModal";
 
 const data = [
   {
@@ -70,81 +70,132 @@ const Page = () => {
       <div className="p-6">
         <h1 className="text-3xl font-bold mb-6">CONSCIENT DATA</h1>
         <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
-            <thead className="bg-gray-700 text-white">
-              <tr>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  ID
-                </th>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  Child Name
-                </th>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  Guardian&apos;s Name
-                </th>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  Phone Number
-                </th>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  Date of Birth (DOB)
-                </th>
-                <th className="py-3 px-4 border-b border-gray-300 text-left">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((item, index) => (
-                <tr
-                  key={item.id}
-                  className={`hover:bg-gray-100 ${
-                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                  }`}
-                >
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    {item.id}
-                  </td>
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    {item.childName}
-                  </td>
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    {item.guardianName}
-                  </td>
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    {item.phoneNumber}
-                  </td>
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    {item.dob}
-                  </td>
-                  <td className="py-3 px-4 border-b border-gray-300">
-                    <div className="flex justify-center space-x-2">
-                      <button
-                        onClick={() => handleView(item)}
-                        className="text-blue-600 hover:text-blue-800 transition-colors"
-                        aria-label="View"
-                      >
-                        <FaEye className="text-xl" />
-                      </button>
-                      <button
-                        onClick={() => handleEdit(item.id)}
-                        className="text-yellow-600 hover:text-yellow-800 transition-colors"
-                        aria-label="Edit"
-                      >
-                        <FaEdit className="text-xl" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(item.id)}
-                        className="text-red-600 hover:text-red-800 transition-colors"
-                        aria-label="Delete"
-                      >
-                        <FaTrashAlt className="text-xl" />
-                      </button>
-                    </div>
-                  </td>
+          {/* Table for larger screens */}
+          <div className="hidden lg:block">
+            <table className="min-w-full bg-white border border-gray-300 rounded-lg shadow-lg">
+              <thead className="bg-gray-700 text-white">
+                <tr>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    ID
+                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    Child Name
+                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    Guardian&apos;s Name
+                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    Phone Number
+                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    Date of Birth (DOB)
+                  </th>
+                  <th className="py-3 px-4 border-b border-gray-300 text-left">
+                    Actions
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentItems.map((item, index) => (
+                  <tr
+                    key={item.id}
+                    className={`hover:bg-gray-100 ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    }`}
+                  >
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      {item.id}
+                    </td>
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      {item.childName}
+                    </td>
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      {item.guardianName}
+                    </td>
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      {item.phoneNumber}
+                    </td>
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      {item.dob}
+                    </td>
+                    <td className="py-3 px-4 border-b border-gray-300">
+                      <div className="flex justify-center space-x-2">
+                        <button
+                          onClick={() => handleView(item)}
+                          className="text-blue-600 hover:text-blue-800 transition-colors"
+                          aria-label="View"
+                        >
+                          <FaEye className="text-xl" />
+                        </button>
+                        <button
+                          onClick={() => handleEdit(item.id)}
+                          className="text-yellow-600 hover:text-yellow-800 transition-colors"
+                          aria-label="Edit"
+                        >
+                          <FaEdit className="text-xl" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(item.id)}
+                          className="text-red-600 hover:text-red-800 transition-colors"
+                          aria-label="Delete"
+                        >
+                          <FaTrashAlt className="text-xl" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {/* Card view for small screens */}
+          <div className="lg:hidden">
+            {currentItems.map((item) => (
+              <div
+                key={item.id}
+                className="bg-white shadow-lg rounded-lg p-4 mb-4 border border-gray-300"
+              >
+                <h3 className="text-lg font-bold mb-2">ID: {item.id}</h3>
+                <p>
+                  <strong>Child Name:</strong> {item.childName}
+                </p>
+                <p>
+                  <strong>Guardians Name:</strong> {item.guardianName}
+                </p>
+                <p>
+                  <strong>Phone Number:</strong> {item.phoneNumber}
+                </p>
+                <p>
+                  <strong>Date of Birth:</strong> {item.dob}
+                </p>
+                <div className="flex justify-end mt-4 space-x-2">
+                  <button
+                    onClick={() => handleView(item)}
+                    className="text-blue-600 hover:text-blue-800 transition-colors"
+                    aria-label="View"
+                  >
+                    <FaEye className="text-xl" />
+                  </button>
+                  <button
+                    onClick={() => handleEdit(item.id)}
+                    className="text-yellow-600 hover:text-yellow-800 transition-colors"
+                    aria-label="Edit"
+                  >
+                    <FaEdit className="text-xl" />
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="text-red-600 hover:text-red-800 transition-colors"
+                    aria-label="Delete"
+                  >
+                    <FaTrashAlt className="text-xl" />
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
           <div className="flex justify-center mt-6">
             {Array.from(
               { length: Math.ceil(data.length / itemsPerPage) },
