@@ -149,7 +149,6 @@ const DefaultPage = ({ children }) => {
           className={`flex-1 p-6 bg-gray-100 ${
             isSidebarOpen ? "ml-64" : "ml-0"
           } lg:ml-0`}
-          style={{ marginTop: "6rem" }} // Adjust margin-top to match the height of the header
         >
           {children}
         </main>
