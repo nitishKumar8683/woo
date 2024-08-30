@@ -13,7 +13,7 @@ const DefaultPage = () => {
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
       <aside
         className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white flex flex-col transition-transform transform ${
@@ -72,7 +72,7 @@ const DefaultPage = () => {
                   onClick={toggleDropdown}
                   className="flex items-center space-x-2 p-2 text-black rounded-full hover:shadow-2xl focus:outline-none transition-all duration-300 ease-in-out"
                 >
-                  <span className="h-16 w-16 overflow-hidden rounded-full">
+                  <span className="h-12 w-12 overflow-hidden rounded-full">
                     <div className="bg-gray-200 relative h-full w-full rounded-full">
                       <Image
                         src="/logo.webp"
