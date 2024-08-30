@@ -1,4 +1,3 @@
-// components/Loader/Loader.tsx
 import ClipLoader from "react-spinners/ClipLoader";
 
 const Loader = () => {

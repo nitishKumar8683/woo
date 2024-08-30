@@ -30,3 +30,10 @@
         background-position: 0% 50%;
     }
 }
+
+.react-hot-toast {
+    right: 0;
+    /* Align toast container to the right */
+    left: auto;
+    /* Disable left positioning */
+}
