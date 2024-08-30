@@ -18,7 +18,7 @@ const DefaultPage = () => {
       <aside
         className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white flex flex-col transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:relative`}
+        } lg:translate-x-0 lg:relative z-10`}
       >
         <div className="p-6 text-2xl font-bold">My App</div>
         <nav className="flex-1">
@@ -44,10 +44,15 @@ const DefaultPage = () => {
       </aside>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        <header className="sticky top-0 z-50 flex w-full bg-white shadow-md dark:bg-gray-800 dark:shadow-none">
+      <div
+        className={`flex-1 flex flex-col ${
+          isSidebarOpen ? "ml-64" : ""
+        } lg:ml-0`}
+      >
+        {/* Header */}
+        <header className="sticky top-0 z-30 flex w-full bg-white shadow-md dark:bg-gray-800 dark:shadow-none">
           <div className="flex flex-grow items-center justify-between px-4 py-4 md:px-6 2xl:px-11">
-            <div className="flex items-center gap-2 lg:hidden">
+            <div className="flex items-center lg:hidden">
               <button
                 aria-controls="sidebar"
                 onClick={toggleSidebar}
@@ -55,14 +60,25 @@ const DefaultPage = () => {
               >
                 <HiMenu className="text-gray-800 dark:text-white" size={24} />
               </button>
+            </div>
 
-              <Link href="/">
+            <div className="flex items-center">
+              <Link href="/" className="lg:hidden">
                 <Image
                   width={32}
                   height={32}
                   src="/images/logo/logo-icon.svg"
                   alt="Logo"
                 />
+              </Link>
+              <Link href="/" className="hidden lg:flex items-center">
+                <Image
+                  width={32}
+                  height={32}
+                  src="/images/logo/logo-icon.svg"
+                  alt="Logo"
+                />
+                <span className="ml-2 text-xl font-bold">My App</span>
               </Link>
             </div>
 
@@ -83,12 +99,22 @@ const DefaultPage = () => {
                       />
                     </div>
                   </span>
-                  <span className="hidden text-right lg:block">
+                  <div className="hidden lg:flex lg:flex-col lg:ml-2">
                     <span className="block text-sm font-medium text-black dark:text-white">
                       Nitish Kumar Jha
                     </span>
-                    <span className="block text-xs">Admin</span>
-                  </span>
+                    <span className="block text-xs text-gray-600 dark:text-gray-400">
+                      Admin
+                    </span>
+                  </div>
+                  <div className="text-right lg:hidden">
+                    <span className="block text-sm font-medium text-black dark:text-white">
+                      Nitish Kumar Jha
+                    </span>
+                    <span className="block text-xs text-gray-600 dark:text-gray-400">
+                      Admin
+                    </span>
+                  </div>
                 </button>
 
                 {isDropdownOpen && (
