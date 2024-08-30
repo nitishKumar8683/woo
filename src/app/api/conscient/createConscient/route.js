@@ -33,7 +33,7 @@ export async function POST(req) {
         const savedConscient = await newConscient.save()
         console.log(savedConscient)
         return NextResponse.json({
-            message: "Consent form save successfully",
+            message: "Conscient Data save successfully",
             savedConscient,
             success: true,
         });
