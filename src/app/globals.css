@@ -31,9 +31,16 @@
     }
 }
 
-.react-hot-toast {
-    right: 0;
-    /* Align toast container to the right */
-    left: auto;
-    /* Disable left positioning */
+@keyframes bgZoom {
+    0% {
+        transform: scale(1);
+    }
+
+    100% {
+        transform: scale(1.05);
+    }
+}
+
+.animate-bg-zoom {
+    animation: bgZoom 20s infinite alternate;
 }
