@@ -7,6 +7,7 @@ import {
   HiStar,
   HiCalendar,
 } from "react-icons/hi";
+import Link from "next/link";
 
 const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
   const sidebarRef = useRef(null);
@@ -42,40 +43,40 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }) => {
       <nav className="flex-1">
         <ul className="space-y-2">
           <li>
-            <a
-              href="#"
+            <Link
+              href="/dashboard/conscient-form-data"
               className="flex items-center p-4 hover:bg-gray-700 rounded-md"
             >
               <HiDocumentText className="mr-3 text-lg" />
               <span className="text-lg">Conscient Form Data</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              href="/feedback-form-data"
               className="flex items-center p-4 hover:bg-gray-700 rounded-md"
             >
               <HiChat className="mr-3 text-lg" />
               <span className="text-lg">Feedback Form Data</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              href="/review-form-data"
               className="flex items-center p-4 hover:bg-gray-700 rounded-md"
             >
               <HiStar className="mr-3 text-lg" />
               <span className="text-lg">Review Form Data</span>
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              href="/monthly-form-data"
               className="flex items-center p-4 hover:bg-gray-700 rounded-md"
             >
               <HiCalendar className="mr-3 text-lg" />
               <span className="text-lg">Monthly Form Data</span>
-            </a>
+            </Link>
           </li>
         </ul>
       </nav>

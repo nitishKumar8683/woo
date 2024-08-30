@@ -2,11 +2,19 @@ import React, { useState, useRef, useEffect } from "react";
 import { HiMenu } from "react-icons/hi";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
 import Image from "next/image";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchApiUsers, logout } from "../../app/redux/slice";
+import { useRouter } from "next/navigation";
 
 const Header = ({ sidebarOpen, setSidebarOpen }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); 
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
+  const router = useRouter();
+   const dispatch = useDispatch();
+   const { userAPIData, isLoading, error } = useSelector(
+     (state) => state.user || {}
+   );
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -20,6 +28,33 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+   useEffect(() => {
+     const fetchData = async () => {
+       try {
+         await dispatch(fetchApiUsers()).unwrap();
+       } catch (err) {
+         if (err.message === "Unauthorized. Redirecting to login.") {
+           router.push("/");
+         }
+       }
+     };
+
+     fetchData();
+   }, [dispatch, router]);
+
+     const handleLogout = async () => {
+       try {
+         await dispatch(logout()).unwrap();
+         router.push("/");
+       } catch (error) {
+         console.error("Logout failed:", error);
+       }
+     };
+
+      const Name = userAPIData?.name || "John";
+      const role = userAPIData?.role || "user";
+      const image = userAPIData?.image_url || "";
 
   return (
     <header className="fixed top-0 left-0 w-full bg-white shadow-md dark:bg-gray-800 z-30">
@@ -50,7 +85,7 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
           >
             <span className="h-12 w-12 overflow-hidden rounded-full relative">
               <Image
-                src="/logo.webp"
+                src={image}
                 alt="User"
                 layout="fill"
                 objectFit="cover"
@@ -60,18 +95,18 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
 
             <div className="hidden lg:flex lg:flex-col lg:ml-2">
               <span className="block text-sm font-medium text-black dark:text-white">
-                Nitish Kumar Jha
+                {Name}
               </span>
               <span className="block text-xs text-gray-600 dark:text-gray-400">
-                Admin
+                {role}
               </span>
             </div>
             <div className="lg:hidden flex flex-col text-right">
               <span className="block text-sm font-medium text-black dark:text-white">
-                Nitish Kumar Jha
+                {Name}
               </span>
               <span className="block text-xs text-gray-600 dark:text-gray-400">
-                Admin
+                {role}
               </span>
             </div>
           </button>
@@ -91,7 +126,11 @@ const Header = ({ sidebarOpen, setSidebarOpen }) => {
                 <span>Profile</span>
               </a>
               <a
-                href="/logout"
+                onClick={(e) => {
+                  e.preventDefault(); 
+                  handleLogout(); 
+                }}
+                href="#"
                 className="flex items-center px-4 py-2 text-gray-800 hover:bg-gray-100 transition duration-200 ease-in-out rounded-lg"
               >
                 <FaSignOutAlt className="mr-2 text-xl text-gray-700" />
