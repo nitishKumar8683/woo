@@ -1,26 +1,50 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FaUserCircle, FaSignOutAlt } from "react-icons/fa";
-import { HiMenu } from "react-icons/hi";
+import { HiMenu, HiX } from "react-icons/hi";
 import Image from "next/image";
-import Link from "next/link";
 
-const DefaultPage = () => {
+const DefaultPage = ({ children }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const [isSidebarOpen, setSidebarOpen] = useState(false);
+  const sidebarRef = useRef(null); // Reference for the sidebar
 
   const toggleDropdown = () => setDropdownOpen(!isDropdownOpen);
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
+  // Close sidebar when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setSidebarOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="relative flex h-screen overflow-hidden">
       {/* Sidebar */}
       <aside
+        ref={sidebarRef}
         className={`fixed inset-y-0 left-0 w-64 bg-gray-800 text-white flex flex-col transition-transform transform ${
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-        } lg:translate-x-0 lg:relative z-10`}
+        } lg:translate-x-0 lg:relative z-40`} // Ensure sidebar is above the content
       >
-        <div className="p-6 text-2xl font-bold">My App</div>
+        <div className="flex items-center justify-between p-6">
+          <div className="text-2xl font-bold">My App</div>
+          {/* Close Button for Mobile */}
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="lg:hidden p-2"
+          >
+            <HiX className="text-white" size={24} />
+          </button>
+        </div>
         <nav className="flex-1">
           <ul className="space-y-2">
             <li>
@@ -45,12 +69,12 @@ const DefaultPage = () => {
 
       {/* Main Content */}
       <div
-        className={`flex-1 flex flex-col ${
-          isSidebarOpen ? "ml-64" : ""
-        } lg:ml-0`}
+        className={`flex-1 flex flex-col transition-transform ${
+          isSidebarOpen ? "ml-64" : "ml-0"
+        } lg:ml-0`} // Ensure content margin adjusts when sidebar is open
       >
         {/* Header */}
-        <header className="sticky top-0 z-30 flex w-full bg-white shadow-md dark:bg-gray-800 dark:shadow-none">
+        <header className="fixed top-0 left-0 w-full z-30 bg-white shadow-md dark:bg-gray-800 dark:shadow-none">
           <div className="flex flex-grow items-center justify-between px-4 py-4 md:px-6 2xl:px-11">
             <div className="flex items-center lg:hidden">
               <button
@@ -60,26 +84,6 @@ const DefaultPage = () => {
               >
                 <HiMenu className="text-gray-800 dark:text-white" size={24} />
               </button>
-            </div>
-
-            <div className="flex items-center">
-              <Link href="/" className="lg:hidden">
-                <Image
-                  width={32}
-                  height={32}
-                  src="/images/logo/logo-icon.svg"
-                  alt="Logo"
-                />
-              </Link>
-              <Link href="/" className="hidden lg:flex items-center">
-                <Image
-                  width={32}
-                  height={32}
-                  src="/images/logo/logo-icon.svg"
-                  alt="Logo"
-                />
-                <span className="ml-2 text-xl font-bold">My App</span>
-              </Link>
             </div>
 
             <div className="flex items-center ml-auto space-x-4">
@@ -141,8 +145,13 @@ const DefaultPage = () => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 p-6 bg-gray-100">
-          <div className="text-2xl font-semibold">Welcome to the Dashboard</div>
+        <main
+          className={`flex-1 p-6 bg-gray-100 ${
+            isSidebarOpen ? "ml-64" : "ml-0"
+          } lg:ml-0`}
+          style={{ marginTop: "6    rem" }} // Adjust margin-top to match the height of the header
+        >
+          {children}
         </main>
       </div>
     </div>
